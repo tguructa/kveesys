@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KveeSys - Learn Complex Tech Concepts Through Interactive Visualizations</title>
+    <meta name="description" content="Master technical subjects like algorithms, system design, and FHIR through hands-on visual learning experiences. Perfect for students and fresh graduates.">
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6;
+            background: white;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #10B981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #3B82F6; /* Fallback for browsers that don't support background-clip */
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #F0F9FF 0%, #EDE9FE 50%, #ECFDF5 100%);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .slide-in-animation {
+            animation: slideIn 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .product-card {
+            transition: all 0.3s ease;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .tech-grid {
+            background-image: radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.1) 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+        
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .bubble-animation {
+            animation: bubbleSort 4s infinite;
+        }
+
+        @keyframes bubbleSort {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(20px); }
+            50% { transform: translateX(0); }
+            75% { transform: translateX(-20px); }
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #3B82F6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563EB;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 2px solid #3B82F6;
+            color: #3B82F6;
+            background: transparent;
+        }
+
+        .btn-secondary:hover {
+            background: #3B82F6;
+            color: white;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .grid-1 { grid-template-columns: 1fr; }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Spacing */
+        .gap-1 { gap: 0.25rem; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-8 { gap: 2rem; }
+
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .py-20 { padding: 5rem 0; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+
+        /* Colors */
+        .bg-white { background: white; }
+        .bg-gray-50 { background: #F9FAFB; }
+        .bg-gray-900 { background: #111827; }
+        .text-white { color: white; }
+        .text-gray-600 { color: #4B5563; }
+        .text-gray-900 { color: #111827; }
+
+        /* Typography */
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-5xl { font-size: 3rem; }
+        .font-bold { font-weight: bold; }
+        .font-semibold { font-weight: 600; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .md-hidden { display: none !important; }
+            .md-flex { display: flex; }
+            .grid-3 { grid-template-columns: 1fr; }
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .text-5xl { font-size: 2.5rem; }
+            .btn { padding: 0.75rem 1.5rem; }
+        }
+
+        @media (min-width: 768px) {
+            .md-block { display: block !important; }
+            .md-flex { display: flex !important; }
+            .md-hidden { display: block; }
+            .mobile-only { display: none !important; }
+        }
+
+        @media (min-width: 1024px) {
+            .lg-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #E5E7EB;
+            z-index: 50;
+        }
+
+        nav a {
+            color: #374151;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #3B82F6;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .shadow-2xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Statistics */
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-blue { color: #3B82F6; }
+        .stat-purple { color: #8B5CF6; }
+        .stat-green { color: #10B981; }
+        .stat-yellow { color: #F59E0B; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="gradient-text text-xl font-bold">KveeSys</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#products" class="text-gray-700 hover:text-blue-500 transition-colors">Products</a>
+                    <a href="#about" class="text-gray-700 hover:text-blue-500 transition-colors">About</a>
+                    <a href="#pricing" class="text-gray-700 hover:text-blue-500 transition-colors">Pricing</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-500 transition-colors">Contact</a>
+                </div>
+                
+
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu md:hidden fixed top-16 right-0 w-full h-screen bg-white shadow-lg">
+            <div class="p-6 space-y-4">
+                <a href="#products" onclick="toggleMobileMenu()" class="block text-gray-700 hover:text-blue-500 text-lg">Products</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="block text-gray-700 hover:text-blue-500 text-lg">About</a>
+                <a href="#pricing" onclick="toggleMobileMenu()" class="block text-gray-700 hover:text-blue-500 text-lg">Pricing</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="block text-gray-700 hover:text-blue-500 text-lg">Contact</a>
+                <div class="pt-4 border-t border-gray-200">
+                    <button class="w-full text-left text-gray-700 hover:text-blue-500 text-lg mb-4">Sign In</button>
+                    <button class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors">Start Learning Free</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-20 hero-gradient min-h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="slide-in-animation">
+                    <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6 text-gray-900">
+                        Learn Complex 
+                        <span class="gradient-text">Tech Concepts</span> 
+                        Through Interactive Visualizations
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        From algorithms to system design - master technical subjects with hands-on, visual learning experiences. Perfect for students and fresh graduates.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <a href="#products" class="bg-blue-500 text-white px-8 py-4 rounded-lg hover:bg-blue-600 transition-colors text-lg font-semibold flex items-center justify-center gap-2 no-underline">
+                            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                            Explore Our Products
+                        </a>
+                        <a href="https://dsa.kveesys.online" target="_blank" rel="noopener noreferrer" class="border-2 border-blue-500 text-blue-500 px-8 py-4 rounded-lg hover:bg-blue-500 hover:text-white transition-colors text-lg font-semibold flex items-center justify-center gap-2 no-underline">
+                            <i data-lucide="external-link" class="w-5 h-5"></i>
+                            Try DSA Guru Free
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-6 text-sm text-gray-500 flex-wrap">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                            <span>No Credit Card Required</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                            <span>Mobile Optimized</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                            <span>Self-Contained Learning</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="floating">
+                    <div class="relative">
+                        <div class="bg-white rounded-2xl shadow-2xl p-8 tech-grid">
+                            <div class="text-center mb-6">
+                                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                                    <i data-lucide="brain" class="w-8 h-8 text-white"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800">DSA Interactive Algorithm Demo</h3>
+                            </div>
+                            
+                            <!-- Mini Bubble Sort Visualization -->
+                            <div class="flex justify-center items-end space-x-2 mb-6">
+                                <div class="w-8 h-12 bg-blue-500 rounded-t flex items-end justify-center text-white text-xs font-bold">64</div>
+                                <div class="bubble-animation w-8 h-8 bg-yellow-500 rounded-t flex items-end justify-center text-white text-xs font-bold">34</div>
+                                <div class="w-8 h-6 bg-gray-400 rounded-t flex items-end justify-center text-white text-xs font-bold">25</div>
+                                <div class="w-8 h-4 bg-gray-400 rounded-t flex items-end justify-center text-white text-xs font-bold">12</div>
+                                <div class="w-8 h-10 bg-green-500 rounded-t flex items-end justify-center text-white text-xs font-bold">90</div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="bg-blue-50 text-blue-700 px-4 py-2 rounded-lg text-sm">
+                                    <strong>Step 2:</strong> Comparing 64 and 34. Since 64 > 34, swap them!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-gray-50">
+        <div class="container">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Learning Platforms</h2>
+                <p class="text-xl text-gray-600" style="max-width: 48rem; margin: 0 auto;">
+                    Each platform is designed to make complex technical subjects visual, interactive, and accessible to everyone.
+                </p>
+            </div>
+            
+            <div class="grid grid-3 gap-8">
+                <!-- DSA Guru -->
+                <div class="product-card">
+                    <div style="background: linear-gradient(135deg, #3B82F6, #4F46E5); padding: 1.5rem;">
+                        <div style="width: 3rem; height: 3rem; background: rgba(255, 255, 255, 0.2); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                            <i data-lucide="brain" style="width: 1.5rem; height: 1.5rem; color: white;"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">DSA Guru</h3>
+                        <p style="color: #BFDBFE;">Interactive Algorithm Learning Platform</p>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-6">
+                            Master data structures and algorithms through step-by-step visualizations, real-time code execution, and comprehensive theory guides.
+                        </p>
+                        <div class="mb-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">15+ Algorithm Visualizations</span>
+                            </div>
+                            <div class="flex items-center gap-4 mb-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">Mobile-First Learning</span>
+                            </div>
+                            <div class="flex items-center gap-4 mb-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">Complete Theory Coverage</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">Progress Tracking</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="https://dsa.kveesys.online" target="_blank" rel="noopener noreferrer" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors flex-1 text-center no-underline">
+                                Launch App
+                            </a>
+                            <button style="padding: 0.75rem 1rem; border: 1px solid #3B82F6; border-radius: 0.5rem; background: white; cursor: pointer; color: #3B82F6;" title="View Pricing" onclick="showDSAPricing()">
+                                <i data-lucide="credit-card" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Design Studio -->
+                <div class="product-card">
+                    <div style="background: linear-gradient(135deg, #8B5CF6, #EC4899); padding: 1.5rem;">
+                        <div style="width: 3rem; height: 3rem; background: rgba(255, 255, 255, 0.2); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                            <i data-lucide="building" style="width: 1.5rem; height: 1.5rem; color: white;"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">System Design Studio</h3>
+                        <p style="color: #DDD6FE;">Visual System Architecture Learning</p>
+                        <div style="margin-top: 0.75rem;">
+                            <span style="background: rgba(255, 255, 255, 0.2); color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem;">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-6">
+                            Build and visualize scalable systems through interactive architecture diagrams, trade-off simulations, and real-world case studies.
+                        </p>
+                        <div class="mb-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">Interactive Architecture Diagrams</span>
+                            </div>
+                            <div class="flex items-center gap-4 mb-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">Scalability Simulations</span>
+                            </div>
+                            <div class="flex items-center gap-4 mb-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">Trade-off Visualizations</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">Real-world Case Studies</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <button class="bg-gray-100 text-gray-500 px-6 py-3 rounded-lg cursor-not-allowed flex-1">
+                                <i data-lucide="clock" class="w-4 h-4 inline mr-2"></i>
+                                Coming Soon
+                            </button>
+                            <button style="padding: 0.75rem 1rem; border: 1px solid #D1D5DB; border-radius: 0.5rem; background: white; cursor: not-allowed;" title="Pricing Available Soon" disabled>
+                                <i data-lucide="credit-card" class="w-4 h-4 text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FHIR Explorer -->
+                <div class="product-card">
+                    <div style="background: linear-gradient(135deg, #10B981, #0D9488); padding: 1.5rem;">
+                        <div style="width: 3rem; height: 3rem; background: rgba(255, 255, 255, 0.2); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                            <i data-lucide="heart-pulse" style="width: 1.5rem; height: 1.5rem; color: white;"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">FHIR Explorer</h3>
+                        <p style="color: #A7F3D0;">Healthcare Data Standards Made Simple</p>
+                        <div style="margin-top: 0.75rem;">
+                            <span style="background: rgba(255, 255, 255, 0.2); color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem;">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-6">
+                            Master healthcare data standards through interactive FHIR resource exploration, data mapping visualizations, and real scenarios.
+                        </p>
+                        <div class="mb-6">
+                            <div class="flex items-center gap-4 mb-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">Interactive FHIR Resources</span>
+                            </div>
+                            <div class="flex items-center gap-4 mb-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">Data Mapping Visualizations</span>
+                            </div>
+                            <div class="flex items-center gap-4 mb-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">API Endpoint Testing</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                                <span style="font-size: 0.875rem; color: #374151;">Real Healthcare Scenarios</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <button class="bg-gray-100 text-gray-500 px-6 py-3 rounded-lg cursor-not-allowed flex-1">
+                                <i data-lucide="clock" class="w-4 h-4 inline mr-2"></i>
+                                Coming Soon
+                            </button>
+                            <button style="padding: 0.75rem 1rem; border: 1px solid #D1D5DB; border-radius: 0.5rem; background: white; cursor: not-allowed;" title="Pricing Available Soon" disabled>
+                                <i data-lucide="credit-card" class="w-4 h-4 text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-white">
+        <div class="container">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Why Choose Visual Learning?</h2>
+                <p class="text-xl text-gray-600" style="max-width: 48rem; margin: 0 auto;">
+                    Transform the way you understand complex technical concepts through our proven visual learning methodology.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="eye" class="w-8 h-8 text-blue-500"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Visual Learning</h3>
+                    <p class="text-gray-600">See algorithms and systems in action with step-by-step interactive visualizations.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="smartphone" class="w-8 h-8 text-purple-500"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Mobile-First</h3>
+                    <p class="text-gray-600">Learn anywhere, anytime with our mobile-optimized learning experience.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="book-open" class="w-8 h-8 text-green-500"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Self-Contained</h3>
+                    <p class="text-gray-600">Complete education without external resources - everything you need in one place.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="trending-up" class="w-8 h-8 text-yellow-500"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Progress Tracking</h3>
+                    <p class="text-gray-600">Monitor your learning journey with detailed analytics and achievement tracking.</p>
+                </div>
+            </div>rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                        <span style="font-size: 1.5rem;">📈</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Progress Tracking</h3>
+                    <p class="text-gray-600">Monitor your learning journey with detailed analytics and achievement tracking.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Trusted by Students Worldwide</h2>
+                <p class="text-xl text-gray-600">Join thousands of students who have transformed their technical learning experience.</p>
+            </div>
+            
+            <div class="grid grid-3 gap-8 mb-8">
+                <div class="card">
+                    <div class="flex items-center mb-4">
+                        <div style="width: 3rem; height: 3rem; background: linear-gradient(135deg, #3B82F6, #8B5CF6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">S</div>
+                        <div style="margin-left: 1rem;">
+                            <h4 class="font-semibold text-gray-900">Sarah Chen</h4>
+                            <p style="color: #4B5563; font-size: 0.875rem;">CS Student, MIT</p>
+                        </div>
+                    </div>
+                    <p style="color: #374151; font-style: italic;">
+                        "DSA Guru made algorithms click for me! The visual approach helped me understand concepts that textbooks couldn't explain in weeks."
+                    </p>
+                    <div style="color: #F59E0B;">
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="flex items-center mb-4">
+                        <div style="width: 3rem; height: 3rem; background: linear-gradient(135deg, #3B82F6, #8B5CF6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">R</div>
+                        <div style="margin-left: 1rem;">
+                            <h4 class="font-semibold text-gray-900">Raj Patel</h4>
+                            <p style="color: #4B5563; font-size: 0.875rem;">Software Engineer</p>
+                        </div>
+                    </div>
+                    <p style="color: #374151; font-style: italic;">
+                        "Perfect for interview prep! The interactive visualizations helped me understand time complexity like never before."
+                    </p>
+                    <div style="color: #F59E0B;">
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="flex items-center mb-4">
+                        <div style="width: 3rem; height: 3rem; background: linear-gradient(135deg, #3B82F6, #8B5CF6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">A</div>
+                        <div style="margin-left: 1rem;">
+                            <h4 class="font-semibold text-gray-900">Alex Johnson</h4>
+                            <p style="color: #4B5563; font-size: 0.875rem;">Bootcamp Graduate</p>
+                        </div>
+                    </div>
+                    <p style="color: #374151; font-style: italic;">
+                        "Mobile learning changed everything for me. I could practice algorithms during my commute and actually understand them!"
+                    </p>
+                    <div style="color: #F59E0B;">
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                        <i data-lucide="star" class="w-5 h-5 inline"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="grid grid-4 gap-8 text-center">
+                <div>
+                    <div class="stat-number stat-blue">10K+</div>
+                    <div class="text-gray-600">Active Learners</div>
+                </div>
+                <div>
+                    <div class="stat-number stat-purple">15+</div>
+                    <div class="text-gray-600">Algorithm Topics</div>
+                </div>
+                <div>
+                    <div class="stat-number stat-green">95%</div>
+                    <div class="text-gray-600">Satisfaction Rate</div>
+                </div>
+                <div>
+                    <div class="stat-number stat-yellow">4.9</div>
+                    <div class="text-gray-600">Average Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DSA Guru Pricing Modal/Section -->
+    <section id="dsa-pricing" class="py-20 bg-white hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">DSA Guru Pricing</h2>
+                <p class="text-xl text-gray-600">Choose the perfect plan for your algorithm learning journey</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <!-- Free Plan -->
+                <div class="bg-white border-2 border-gray-200 rounded-2xl p-8 relative">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Explorer</h3>
+                        <div class="text-4xl font-bold text-gray-900 mb-2">₹0</div>
+                        <div class="text-gray-600">Perfect for trying out</div>
+                        <div class="text-sm text-blue-600 font-medium mt-2">• Students & Fresh Graduates getting started</div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>3 Core Algorithms (Bubble Sort, Linear Search, Factorial)</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>8 Sessions per day</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Basic step-by-step visualizations</span>
+                        </div>
+                                                <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>C++ Source Code Highlighter</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Mobile-friendly interface</span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://dsa.kveesys.online" target="_blank" rel="noopener noreferrer" class="w-full bg-gray-900 text-white py-3 px-6 rounded-lg hover:bg-gray-800 transition-colors block text-center no-underline">
+                        Start Free
+                    </a>
+                </div>
+                
+                <!-- Student Plan -->
+                <div class="bg-white border-2 border-blue-500 rounded-2xl p-8 relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                            Most Popular
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Scholar</h3>
+                        <div class="text-4xl font-bold text-gray-900 mb-2">₹499</div>
+                        <div class="text-gray-600">per month</div>
+                        <div class="text-sm text-blue-600 font-medium mt-2">• Students & Fresh Graduates</div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>15+ Algorithms (Interview favorites)</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Unlimited practice sessions</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Access to Theory</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Multiple language Source Code Highlighter</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Progress tracking</span>
+                        </div>
+                    </div>
+                    
+                    <span href="https://dsa.kveesys.online" target="_blank" rel="noopener noreferrer" class="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors block text-center no-underline">
+                        Start with Explorer. You can upgrade to Scholar anytime from inside the app.
+                    </span>
+                </div>
+                
+                <!-- Professional Plan 
+                <div class="bg-white border-2 border-gray-200 rounded-2xl p-8 relative">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Professional</h3>
+                        <div class="text-4xl font-bold text-gray-900 mb-2">₹999</div>
+                        <div class="text-gray-600">per month</div>
+                        <div class="text-sm text-blue-600 font-medium mt-2">• Early career engineers</div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Everything in Scholar</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Advanced algorithms & data structures</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Company-specific interview prep</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Performance analytics & insights</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Priority support & mentorship</span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://dsa.kveesys.online" target="_blank" rel="noopener noreferrer" class="w-full bg-purple-500 text-white py-3 px-6 rounded-lg hover:bg-purple-600 transition-colors block text-center no-underline">
+                        Start Professional
+                    </a>
+                </div>
+            </div> -->
+            
+            <div class="text-center mt-8">
+                <button onclick="hideDSAPricing()" class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5 inline mr-1"></i>
+                    Close Pricing
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Pricing Overview (Future) -->
+    <section id="platform-pricing" class="py-20 bg-gray-50 hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Platform Pricing</h2>
+                <p class="text-xl text-gray-600">When we have multiple products, choose a plan that covers all KveeSys learning platforms</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Basic Platform Plan -->
+                <div class="bg-white border-2 border-gray-200 rounded-2xl p-8 relative">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Basic</h3>
+                        <div class="text-4xl font-bold text-gray-900 mb-2">$15</div>
+                        <div class="text-gray-600">per month</div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Access to All Products</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Basic Features</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Mobile Access</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-gray-900 text-white py-3 px-6 rounded-lg hover:bg-gray-800 transition-colors">
+                        Coming Soon
+                    </button>
+                </div>
+                
+                <!-- Pro Platform Plan -->
+                <div class="bg-white border-2 border-blue-500 rounded-2xl p-8 relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <div class="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                            Best Value
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Professional</h3>
+                        <div class="text-4xl font-bold text-gray-900 mb-2">$29</div>
+                        <div class="text-gray-600">per month</div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Everything in Basic</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Advanced Features</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Cross-Platform Analytics</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Priority Support</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors">
+                        Coming Soon
+                    </button>
+                </div>
+                
+                <!-- Enterprise Platform Plan -->
+                <div class="bg-white border-2 border-gray-200 rounded-2xl p-8 relative">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
+                        <div class="text-4xl font-bold text-gray-900 mb-2">$99</div>
+                        <div class="text-gray-600">per month</div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Everything in Professional</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Team Management</span>
+                        </div>
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Custom Integration</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                            <span>Dedicated Support</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-purple-500 text-white py-3 px-6 rounded-lg hover:bg-purple-600 transition-colors">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="container">
+            <div class="grid lg-grid-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Making Complex Technical Knowledge Visual and Accessible</h2>
+                    <p class="text-xl text-gray-600 mb-8" style="line-height: 1.6;">
+                        At KveeSys, we believe that every complex technical subject should be learnable through visualization. Our mission is to transform abstract concepts into interactive, visual experiences that make learning intuitive and engaging.
+                    </p>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div style="width: 2rem; height: 2rem; background: #EFF6FF; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.25rem;">
+                                <i data-lucide="target" style="width: 1rem; height: 1rem; color: #3B82F6;"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-2">Our Vision</h3>
+                                <p class="text-gray-600">A world where technical education is accessible to everyone, regardless of their learning style or background.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4 mb-6">
+                            <div style="width: 2rem; height: 2rem; background: #F3E8FF; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.25rem;">
+                                <i data-lucide="rocket" style="width: 1rem; height: 1rem; color: #8B5CF6;"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-2">Our Approach</h3>
+                                <p class="text-gray-600">Student-first design with mobile-optimized, self-contained learning experiences that work without external dependencies.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div style="width: 2rem; height: 2rem; background: #ECFDF5; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.25rem;">
+                                <i data-lucide="lightbulb" style="width: 1rem; height: 1rem; color: #10B981;"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-2">Our Impact</h3>
+                                <p class="text-gray-600">Helping students and fresh graduates bridge the gap between theoretical knowledge and practical understanding.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" style="background: linear-gradient(to right, #3B82F6, #8B5CF6); color: white;">
+                        Learn More About Our Story
+                    </button>
+                </div>
+                
+                <div>
+                    <div class="card shadow-2xl">
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-4">Our Learning Philosophy</h3>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-center gap-4 mb-6">
+                                <div style="width: 3rem; height: 3rem; background: #3B82F6; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">1</div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Visualize First</h4>
+                                    <p style="color: #4B5563; font-size: 0.875rem;">See the concept in action before diving into theory</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 mb-6">
+                                <div style="width: 3rem; height: 3rem; background: #8B5CF6; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">2</div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Interact & Explore</h4>
+                                    <p style="color: #4B5563; font-size: 0.875rem;">Hands-on learning through interactive experiences</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 mb-6">
+                                <div style="width: 3rem; height: 3rem; background: #10B981; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">3</div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Understand Deeply</h4>
+                                    <p style="color: #4B5563; font-size: 0.875rem;">Connect theory with practical implementation</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4">
+                                <div style="width: 3rem; height: 3rem; background: #F59E0B; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">4</div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">Apply Confidently</h4>
+                                    <p style="color: #4B5563; font-size: 0.875rem;">Build real-world problem-solving skills</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-20" style="background: linear-gradient(to right, #3B82F6, #8B5CF6, #10B981);">
+        <div class="container text-center" style="max-width: 64rem;">
+            <h2 class="text-5xl font-bold text-white mb-6">
+                Ready to Transform Your Learning?
+            </h2>
+            <p class="text-xl text-white mb-8" style="max-width: 32rem; margin: 0 auto 2rem; opacity: 0.9;">
+                Join thousands of students who are mastering complex technical concepts through our visual learning platform. Start your journey today - no credit card required.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+                <a href="#products" class="bg-white text-blue-600 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors text-lg font-semibold flex items-center gap-2 no-underline">
+                    <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                    Explore All Products
+                </a>
+                <a href="https://dsa.kveesys.online" target="_blank" rel="noopener noreferrer" class="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-blue-600 transition-colors text-lg font-semibold flex items-center gap-2 no-underline">
+                    <i data-lucide="external-link" class="w-5 h-5"></i>
+                    Try DSA Guru Now
+                </a>
+            </div>
+            
+            <div class="flex items-center justify-center gap-8 text-white" style="font-size: 0.875rem; opacity: 0.9; flex-wrap: wrap;">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                    <span>Free Forever Plan</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                    <span>No Setup Required</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                    <span>Start in 30 Seconds</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="py-20 bg-gray-900 text-white">
+        <div class="container">
+            <div class="grid grid-4 gap-8 mb-8">
+                <!-- Company Info -->
+                <div style="grid-column: span 2;">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div style="width: 2rem; height: 2rem; background: linear-gradient(135deg, #3B82F6, #8B5CF6); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                            <i data-lucide="zap" style="width: 1rem; height: 1rem; color: white;"></i>
+                        </div>
+                        <span class="gradient-text text-xl font-bold">KveeSys</span>
+                    </div>
+                    <p style="color: #9CA3AF; margin-bottom: 1.5rem; max-width: 24rem;">
+                        Making complex technical knowledge visual and accessible. Transform your learning experience with our interactive educational platforms.
+                    </p>
+                    <div class="flex gap-4">
+                        <button style="width: 2.5rem; height: 2.5rem; background: #374151; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: background 0.3s;">
+                            <i data-lucide="mail" class="w-5 h-5 text-gray-300"></i>
+                        </button>
+                        <button style="width: 2.5rem; height: 2.5rem; background: #374151; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: background 0.3s;">
+                            <i data-lucide="twitter" class="w-5 h-5 text-gray-300"></i>
+                        </button>
+                        <button style="width: 2.5rem; height: 2.5rem; background: #374151; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: background 0.3s;">
+                            <i data-lucide="linkedin" class="w-5 h-5 text-gray-300"></i>
+                        </button>
+                        <button style="width: 2.5rem; height: 2.5rem; background: #374151; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: background 0.3s;">
+                            <i data-lucide="youtube" class="w-5 h-5 text-gray-300"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Products -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Products</h3>
+                    <div>
+                        <a href="#" style="display: block; color: #9CA3AF; text-decoration: none; margin-bottom: 0.75rem; transition: color 0.3s;">DSA Guru</a>
+                        <a href="#" style="display: block; color: #9CA3AF; text-decoration: none; margin-bottom: 0.75rem; transition: color 0.3s;">System Design Studio</a>
+                        <a href="#" style="display: block; color: #9CA3AF; text-decoration: none; margin-bottom: 0.75rem; transition: color 0.3s;">FHIR Explorer</a>
+                        <a href="#" style="display: block; color: #9CA3AF; text-decoration: none; transition: color 0.3s;">All Products</a>
+                    </div>
+                </div>
+                
+                <!-- Company -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <div>
+                        <a href="#" style="display: block; color: #9CA3AF; text-decoration: none; margin-bottom: 0.75rem; transition: color 0.3s;">Payment Help</a>
+                        <a href="#" style="display: block; color: #9CA3AF; text-decoration: none; margin-bottom: 0.75rem; transition: color 0.3s;">GST Information</a>
+                        <a href="#" style="display: block; color: #9CA3AF; text-decoration: none; margin-bottom: 0.75rem; transition: color 0.3s;">Student Discount</a>
+                        <a href="#contact" style="display: block; color: #9CA3AF; text-decoration: none; transition: color 0.3s;">Contact Support</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Section -->
+            <div style="border-top: 1px solid #374151; padding-top: 2rem;">
+                <div class="flex flex-col justify-between items-center" style="align-items: center;">
+                    <div style="color: #9CA3AF; font-size: 0.875rem; margin-bottom: 1rem; text-align: center;">
+                        © 2025 KveeSys. All rights reserved. Made in India for Indian students. GST: 29ABCDE1234F1Z5
+                    </div>
+                    <div class="flex gap-6" style="font-size: 0.875rem; color: #9CA3AF;">
+                        <a href="#" style="color: #9CA3AF; text-decoration: none; transition: color 0.3s;">Privacy Policy</a>
+                        <a href="#" style="color: #9CA3AF; text-decoration: none; transition: color 0.3s;">Terms of Service</a>
+                        <a href="#" style="color: #9CA3AF; text-decoration: none; transition: color 0.3s;">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('open');
+        }
+
+        function scrollToAbout() {
+            document.getElementById('about').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function showDSAPricing() {
+            document.getElementById('dsa-pricing').classList.remove('hidden');
+            document.getElementById('dsa-pricing').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function hideDSAPricing() {
+            document.getElementById('dsa-pricing').classList.add('hidden');
+        }
+
+        function showPlatformPricing() {
+            document.getElementById('platform-pricing').classList.remove('hidden');
+            document.getElementById('platform-pricing').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to hero elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroElements = document.querySelectorAll('.floating');
+            heroElements.forEach(el => {
+                el.style.transform = `translateY(${scrolled * 0.1}px)`;
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('slide-in-animation');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.product-card, .card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Responsive navigation
+        const mediaQuery = window.matchMedia('(min-width: 768px)');
+        
+        function handleScreenChange(e) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (e.matches) {
+                mobileMenu.classList.remove('open');
+            }
+        }
+        
+        mediaQuery.addListener(handleScreenChange);
+        handleScreenChange(mediaQuery);
+    </script>
+</body>
+</html>
